@@ -14,10 +14,9 @@ module TCAM_tb();
 		
 	wire[31:0] addr_out;    //next hop
 	wire[3:0] if_idx;      //interface index to route packet
-	wire[WIDTH-1:0] prefix_size;
-	
+	wire[7:0] prefix_size;
+	wire valid;
 	reg wr_en;
-	reg[SIZE-1:0] wr_index;
 	reg [(WIDTH*2)-1 +4:0] addr_in;
 	
 	reg clk_out;
@@ -31,7 +30,7 @@ module TCAM_tb();
 	
 	integer idx;
 
-	TCAM tcam( .clk(clk_out), .addr_in(addr_in), .addr_out(addr_out), .if_idx(if_idx), .prefix_size(prefix_size), .wr_en(wr_en) );
+	TCAM tcam( .clk(clk_out), .addr_in(addr_in), .addr_out(addr_out), .if_idx(if_idx), .prefix_size(prefix_size), .wr_en(wr_en), .valid(valid) );
 			 
 			 
 	initial begin
@@ -44,7 +43,7 @@ module TCAM_tb();
 	end
 	
 	
-	
+
 	always begin
 		#8 clk_125 = !clk_125; //125Mhz
 	
@@ -54,10 +53,10 @@ module TCAM_tb();
 	always @(posedge clk_125) begin 
 	
 		#100
-		addr_in = addr_in +1;		
 		clk_out = 1;
 		#1
 		clk_out = 0;
+		addr_in = addr_in +1;		
 	
 	end
 	
