@@ -22,7 +22,7 @@ parameter WIDTH = 32;
 parameter SIZE = 8;	
 
 reg [(WIDTH*2)-1+4:0] content [SIZE-1:0]; // [(WIDTH*2)-1 +4:(WIDTH*2)]->if_idx  [(WIDTH*2)-1 : WIDTH ] -> netmask  [WIDTH-1:0] ->prefix
-reg [WIDTH-1:0] count_ones[SIZE-1:0];
+reg [8:0] count_ones[SIZE-1:0]; 
 
 integer idx[SIZE-1:0];
 integer six;
@@ -41,13 +41,13 @@ always @addr_in begin
 
 	best_value = 0;
 	best_six = 0;
-	for (six=0; six<SIZE-1; six = six + 1) begin
+	for (six=0; six<SIZE; six = six + 1) begin
 	  count_ones[six] = {WIDTH{1'b0}};
 	  addr_in_mask[six] = addr_in[WIDTH-1:0] & content[six][(WIDTH*2)-1:WIDTH];
 	  
 	  if ( addr_in_mask[six] == content[six][WIDTH-1:0] ) begin //Prefix MATCH
 		  for( idx[six] = 0; idx[six]<WIDTH; idx[six] = idx[six] + 1) begin
-			 count_ones[six] = count_ones[six] + addr_in_mask[six][idx[six]];
+			 count_ones[six] = count_ones[six] + content[six][idx[six]+WIDTH];
 		  end
 		  
 		  if (count_ones[six]>best_value) begin
