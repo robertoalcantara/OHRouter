@@ -40,17 +40,18 @@ reg[WIDTH-1:0] addr_in_mask [SIZE-1:0];
 
 
 initial begin
-	$readmemh("content_tb.list", content);		
+	$readmemh("content_tb.list", content);
+	valid = 1'b0;		
 end
 
 
 always @addr_in begin
-
+	valid = 1'b0;
 	best_value = 0;
 	best_six = 0;
-   valid = 1'b0;
+   	
 	for (six=0; six<SIZE; six = six + 7'd1) begin
-	  count_ones[six] = 0;//{WIDTH{1'b0}};
+	  count_ones[six] = 0;
 	  addr_in_mask[six] = addr_in[WIDTH-1:0] & content[six][(WIDTH*2)-1:WIDTH];
 	  
 	  if ( addr_in_mask[six] == content[six][WIDTH-1:0] && content[six][VALID_ENTRY_POS]==1 ) begin //Prefix MATCH
@@ -58,7 +59,7 @@ always @addr_in begin
 			 count_ones[six] = count_ones[six] + content[six][idx[six]+WIDTH];
 		  end
 		  
-		  if ( count_ones[six]>best_value ) begin
+		  if ( count_ones[six]>=best_value ) begin
 				best_value = count_ones[six];
 				best_six = six;
 				valid = 1'b1;
