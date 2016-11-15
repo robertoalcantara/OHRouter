@@ -21,9 +21,7 @@ module TCAM_tb();
 	reg[7:0] wr_index;
 	
 	reg clk_out;
-	
-	reg [(WIDTH*2)-1+4:0] content [SIZE-1:0];  // [(WIDTH*2)-1 +4:(WIDTH*2)]->if_idx  [(WIDTH*2)-1 : WIDTH ] -> netmask  [WIDTH-1:0] ->prefix
-	
+		
 	integer idx;
 
 	TCAM tcam( .clk(clk_out), .addr_in(addr_in), .addr_out(addr_out), .if_idx(if_idx), .prefix_size(prefix_size), .wr_en(wr_en), .valid(valid), .wr_index(wr_index) );
@@ -55,9 +53,9 @@ module TCAM_tb();
 		$display("-----------------------------"); 
 		addr_in = addr;
 		$display("addr_in = %d.%d.%d.%d", addr_in[31:24], addr_in[23:16],addr_in[15:8], addr_in[7:0] );
-		#5
+		#1
 		clk_out = 1;
-		#10
+		#1
 		clk_out = 0;
 		
 		if (valid) begin		
