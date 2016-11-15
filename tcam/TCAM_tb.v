@@ -9,7 +9,7 @@
 module TCAM_tb();
 
 	parameter WIDTH = 32;
-	parameter SIZE = 8;	
+	parameter SIZE = 32;	
 
 		
 	wire[31:0] addr_out;    //next hop
@@ -44,6 +44,18 @@ module TCAM_tb();
 		lookup(32'hc0a80101); //192.168.1.1
 
 		lookup(32'h0a00000a); //10.0.0.10
+		lookup(32'h0a000a02); //10.0.0.2
+		
+		for (idx=0; idx<SIZE; idx = idx + 1'b1) begin
+			wr_en=1;
+			wr_index = idx;
+			addr_in = 0;
+			#1
+			clk_out = 1;
+			#1
+			clk_out = 0;	
+		end
+		wr_en=0;
 		lookup(32'h0a000a02); //10.0.0.2
 		
 	end
