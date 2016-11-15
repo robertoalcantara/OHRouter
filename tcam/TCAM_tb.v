@@ -31,7 +31,7 @@ module TCAM_tb();
 		clk_out=0;
 		wr_en = 0;	
 		addr_in = 0;	
-
+		#10
 		lookup(32'hc0a80001); //192.168.0.1
 		lookup(32'hc0a8000a); //192.168.0.10
 		lookup(32'hc0a8000f); //192.168.0.16

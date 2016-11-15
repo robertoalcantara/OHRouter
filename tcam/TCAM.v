@@ -22,10 +22,10 @@ module TCAM (
 	);
 
 parameter WIDTH = 32;
-parameter SIZE = 32;   //info: 8=608(594)   16=1262 (1146reg)    32=2498(2250reg)
+parameter SIZE = 32;   //info: 8=608(594)   16=1262 (1146reg)    32=2498(2250reg) 
 
 reg [(WIDTH*2)-1+4+1:0] content [SIZE-1:0]; // [bit 1]->valid [(WIDTH*2)-1 +4:(WIDTH*2)]->if_idx  [(WIDTH*2)-1 : WIDTH ] -> netmask  [WIDTH-1:0] ->prefix
-parameter VALID_ENTRY_POS = (WIDTH*2)-1+4;
+parameter VALID_ENTRY_POS = 68;
 
 reg [7:0] count_ones[SIZE-1:0]; 
 integer idx[SIZE-1:0];
