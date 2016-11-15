@@ -30,7 +30,6 @@ module TCAM_tb();
 			 
 			 
 	initial begin
-		$readmemh("content_tb.list", table_list);
 		clk_out=0;
 		wr_en = 0;	
 		addr_in = 0;	
@@ -47,6 +46,7 @@ module TCAM_tb();
 		lookup(32'hc0a80101); //192.168.1.1
 
 		lookup(32'h0a00000a); //10.0.0.10
+		lookup(32'h0a000a02); //10.0.0.2
 		
 	end
 	
