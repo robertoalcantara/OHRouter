@@ -46,6 +46,7 @@ module TCAM_tb();
 		lookup(32'h0a00000a); //10.0.0.10
 		lookup(32'h0a000a02); //10.0.0.2
 		
+		$display("Erasing");
 		for (idx=0; idx<SIZE; idx = idx + 1'b1) begin
 			wr_en=1;
 			wr_index = idx;

@@ -23,9 +23,9 @@ module TCAM (
 
 parameter WIDTH = 32;
 parameter SIZE = 32;   //info: 8=608(594)   16=1262 (1146reg)    32=2498(2250reg) 
-
+//[(WIDTH*2)-1+4+1:0]
 reg [(WIDTH*2)-1+4+1:0] content [SIZE-1:0]; // [bit 1]->valid [(WIDTH*2)-1 +4:(WIDTH*2)]->if_idx  [(WIDTH*2)-1 : WIDTH ] -> netmask  [WIDTH-1:0] ->prefix
-parameter VALID_ENTRY_POS = 68;
+parameter VALID_ENTRY_POS = 68;//(WIDTH*2)-1+4+1-1;
 
 reg [7:0] count_ones[SIZE-1:0]; 
 integer idx[SIZE-1:0];
@@ -52,10 +52,10 @@ always @addr_in begin
 	for (six=0; six<SIZE; six = six + 7'd1) begin
 	  count_ones[six] = 0;
 	  addr_in_mask[six] = addr_in[WIDTH-1:0] & content[six][(WIDTH*2)-1:WIDTH];
-	  
-	  if ( content[six][VALID_ENTRY_POS]==1'b1 && addr_in_mask[six] == content[six][WIDTH-1:0] ) begin //Prefix MATCH
+	  //problem here! synthesis seems wrong... && content[six][VALID_ENTRY_POS]==1'b1
+	  if ( addr_in_mask[six] == content[six][WIDTH-1:0] && content[six][VALID_ENTRY_POS]==1'b1 ) begin //Prefix MATCH
 		  for( idx[six] = 0; idx[six]<WIDTH; idx[six] = idx[six] + 1) begin
-			 count_ones[six] = count_ones[six] + content[six][idx[six]+WIDTH];
+  		      count_ones[six] = count_ones[six] + content[six][idx[six]+WIDTH];
 		  end
 		  
 		  if ( count_ones[six]>=best_value ) begin
